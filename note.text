@@ -1,0 +1,83 @@
+1.【套件前置】
+- 載入要使用的套件
+
+2.【HTML 架構】
+- 手刻html
+
+3.【串接第三方資料：API 請求資料】
+- 閱讀第三方 API 文件，貼上瀏覽器，了解其規格
+- 使用 axios 向 server 發送 request，並處理成功及失敗的不同情況
+- 串接 Index API 取得多筆電影資料
+
+4.【製作 movies 容器：存放 API 回傳的資料】
+- 使用 push 方法 + 展開運算子，新增陣列項目到 movies 容器內
+
+5.【Index API：把API回傳資料放進網頁】
+- DOM操作，選取操作節點
+- 設計函式
+  運用 forEach 方法和 template literal 動態組合 HTML 樣板
+  DOM操作，修改畫面
+- 調用函式
+
+6.【Show API：特定電影詳情】
+- 客製化modal元件：修改HTML、bootstrap
+- 委派點擊事件：點擊事件綁定至動態產生的按鈕More
+- 取出特定電影 id 資訊：使用 dataset 將 id 標註到 HTML 標籤上，再用 JavaScript 取出
+- 使用 axios 發送請求給 Show API
+- 取得 API 資料，放進 template 的適當位置裡
+
+7. 【Search Bar】
+-  搜尋表單綁定監聽器，監聽提交事件 (會觸發瀏覽器預設行為)
+-  用 event.preventDefault()，停止瀏覽器的預設行為
+-  抓取search-input的值 .value，value 值轉成小寫(.toLowerCase())、去除空格(.trim())
+-  加入錯誤處理：條件式：輸入無效搜尋字 return 結束執行程式碼
+-  宣告 filteredMovies 容器，存放篩選後符合條件的電影資料
+-  掃描 movies 容器內所有 movie，比對字串，篩選出含 value值的 movie 後，放入 filteredMovies 容器
+   掃描陣列內元素：for of 迴圈 或 .filter() 方法 
+   篩選條件(比對字串)：movie.title 是否包含 value值 (.includes(value值)、.toLowerCase())
+-  優化使用者體驗，在無搜尋結果時提供提示：使用條件判斷式
+
+8. 【收藏清單】
+-  委派點擊事件：點擊事件綁定至動態產生的按鈕 + (綁定監聽器位置同 More 按鈕)
+-  取出特定電影 id 資訊
+   使用 dataset 將 id 標註到 HTML 標籤上
+   再用 JavaScript 掃描 movies 陣列，取得符合條件的項目(.find())
+-  將取出特定 movie 資料暫存起來
+-  從 local storage 取出資料，放到收藏清單 (從 local storage 處理取不到資料時的情況：邏輯運算子 OR ||)
+-  將暫存的特定 movie，放到收藏清單
+-  將收藏清單存到 local storage
+-  錯誤處理：已經在收藏清單的電影，不應被重複加
+   判斷從 local storage 取出的資料中，是否已經有 id 相同的項目(.some())
+
+9. 【製作收藏頁面】
+
+10.【移除已收藏清單】
+-  卡片上增加移除按鈕：修改 html
+-  移除按鈕加上事件監聽器，監聽移除按鈕的點擊事件
+-  該筆電影資料從蒐藏清單陣列中移除
+   使用 splice 刪除"原陣列"中的該筆資料
+   使用 findIndex 掃描陣列，獲得指定項目的 index
+-  將修改後的蒐藏清單，存入 local storage，修改原本 local storage 內容
+-  呼叫renderMovieList()，更新畫面
+
+11.【製作分頁】
+-  製作分頁器 UI 元件
+   設計 renderPaginator(amount)函式
+   根據資料長度，計算出總頁碼：使用 math.ceil() 無條件進位
+   使用 for 迴圈、 template literal 動態組合 HTML 樣板
+   取出特定 page：使用 dataset 將 page 標註到 HTML 標籤上，再用 JavaScript 取出
+-  根據被點擊的頁數，取出一部分的電影資料
+   設計 getMoviesByPage(page) 函式
+   使用 slice 切出指定範圍的新陣列
+-  監聽分頁器的點擊事件
+-  將取出的部分資料呈現在畫面 (data-panel) 上
+
+12.【搜尋結果也要分頁】
+使用搜尋功能後：
+-  getMoviesByPage(page)內，處理的資料：從 movies 變成 filteredMovies 
+   使用 三元運算子 簡化判斷式，判斷要處理的資料是 movies 還是 filteredMovies 
+-  renderPaginator(amount)內，傳入的參數，從 movies.length 變成 filteredMovies.length
+   修改 onSearchFormSubmitted(event) 函式
+   變數 filteredMovies 移到函式外，變成全域變數（其他地方也需使用該變數）
+   新增 renderPaginator(filteredMovies.length) (重製 paginator 畫面)
+   修改 renderMovieList(getMoviesByPage(1))：搜尋結果也要分頁，且初始顯示第一頁資料

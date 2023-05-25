@@ -1,0 +1,16 @@
+手刻html：list icon、card icon、list view
+
+
+【list icon】
+1. 點擊list icon
+- addEventListener
+
+2. 畫面切換為list mode
+
+【card icon】
+1. 點擊card icon
+2. 畫面切換為card mode 
+
+【keep paginator work】
+1. 
+提示：目前的分頁設計是直接抓取 event.target.dataset.page，然而當函式互動多時，可能需要把 event.target.dataset.page 抽取成可以共用的變數。
